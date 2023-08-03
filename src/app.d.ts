@@ -1,3 +1,4 @@
+import { ScrollSmoother } from 'gsap/dist/ScrollSmoother'
 // See https://kit.svelte.dev/docs/types#app
 // for information about these interfaces
 declare global {
@@ -7,6 +8,10 @@ declare global {
 		// interface PageData {}
 		// interface Platform {}
 	}
+
+	interface Window {
+		smoother: ScrollSmoother
+	}
 }
 
-export {};
+export {}

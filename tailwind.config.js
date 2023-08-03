@@ -11,7 +11,12 @@ export default {
 			tertiary: '#D9D9D9',
 			white: '#FFFFFF'
 		},
-		extend: {}
+		extend: {
+			gridTemplateColumns: {
+				footer: '1fr 3fr 1fr',
+				footerMobile: '1fr 1fr 1fr'
+			}
+		}
 	},
-	plugins: []
-};
+	plugins: [require('@tailwindcss/aspect-ratio')]
+}

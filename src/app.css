@@ -1,8 +1,8 @@
 @font-face {
 	font-family: 'Neue Haas';
-	src: url('fonts/NHaasGroteskTXPro-55Rg.woff2') format('woff2'),
-		url('fonts/NHaasGroteskTXPro-55Rg.woff') format('woff'),
-		url('fonts/NHaasGroteskTXPro-55Rg.ttf') format('truetype');
+	src: url('/fonts/NHaasGroteskTXPro-55Rg.woff2') format('woff2'),
+		url('/fonts/NHaasGroteskTXPro-55Rg.woff') format('woff'),
+		url('/fonts/NHaasGroteskTXPro-55Rg.ttf') format('truetype');
 	font-weight: normal;
 	font-style: normal;
 	font-display: swap;
@@ -10,13 +10,17 @@
 
 @font-face {
 	font-family: 'Neue Haas';
-	src: url('fonts/NHaasGroteskTXPro-75Bd.woff2') format('woff2'),
-		url('fonts/NHaasGroteskTXPro-75Bd.woff') format('woff'),
-		url('fonts/NHaasGroteskTXPro-75Bd.ttf') format('truetype');
+	src: url('/fonts/NHaasGroteskTXPro-75Bd.woff2') format('woff2'),
+		url('/fonts/NHaasGroteskTXPro-75Bd.woff') format('woff'),
+		url('/fonts/NHaasGroteskTXPro-75Bd.ttf') format('truetype');
 	font-weight: bold;
 	font-style: normal;
 	font-display: swap;
 }
+
+/* * {
+	outline: 1px solid red;
+} */
 
 @tailwind base;
 @tailwind components;
@@ -24,7 +28,18 @@
 
 @layer base {
 	body {
-		@apply font-sans text-primary;
+		@apply bg-white font-sans text-primary;
+	}
+
+	p {
+		@apply max-w-prose;
+	}
+}
+
+@layer components {
+	.eyebrow::before {
+		@apply absolute -top-5 left-0 w-16 border-b-2 border-secondary;
+		content: '';
 	}
 }
 
