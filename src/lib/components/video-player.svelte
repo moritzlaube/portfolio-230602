@@ -171,6 +171,7 @@
 		{poster}
 		{preload}
 		{autoplay}
+		playsinline
 		on:click
 		on:ended={onEnded}
 		on:timeupdate={setTime}

@@ -4,6 +4,7 @@
 	import Logo from '$lib/icons/logo.svelte'
 	import { onMount, createEventDispatcher } from 'svelte'
 	import { spring } from 'svelte/motion'
+	import { initialLoad } from '$lib/stores/preloader.ts'
 
 	gsap.registerPlugin(DrawSVGPlugin)
 
@@ -22,25 +23,21 @@
 
 		totalAssets += images.length
 
+		let mm = gsap.matchMedia()
+
 		videos.forEach((video) => {
 			if (video.querySelector('source')?.getAttribute('src')) {
 				totalAssets++
-			}
-		})
-
-		let mm = gsap.matchMedia()
-
-		mm.add('(min-width: 768px)', () => {
-			videos.forEach((video) => {
-				let videoNeedsTOBeAddedToTotal = false
-				video.querySelectorAll('source').forEach((source) => {
-					if (!source.dataset.src) return
-					videoNeedsTOBeAddedToTotal = true
-					source.setAttribute('src', source.getAttribute('data-src') || '')
+			} else if (video.querySelector('source')?.getAttribute('data-src')) {
+				mm.add('(min-width: 768px)', () => {
+					video.querySelectorAll('source').forEach((source) => {
+						source.setAttribute('src', source.getAttribute('data-src') || '')
+						source.removeAttribute('data-src')
+					})
+					video.load()
+					totalAssets++
 				})
-				videoNeedsTOBeAddedToTotal ? totalAssets++ : null
-				video.load()
-			})
+			}
 		})
 
 		// loop through images and videos and add event listeners to check if they are loaded
@@ -64,7 +61,7 @@
 	}
 
 	function onAnimationComplete() {
-		dispatch('loaded')
+		dispatch('animationComplete')
 	}
 
 	onMount(() => {
@@ -100,6 +97,7 @@
 		percentageLoaded.set(loaded / totalAssets || 0)
 		if (loaded === totalAssets) {
 			tl?.play()
+			initialLoad.set(false)
 		}
 	}
 </script>
@@ -107,7 +105,7 @@
 <div id="preloader-wrapper" class="pointer-events-none fixed inset-0 z-50 overflow-hidden bg-white">
 	<div id="preloader" class="relative flex h-screen w-screen items-center justify-center">
 		<Logo class="logo hidden scale-150 opacity-50" />
-		<div class="absolute bottom-1 right-10 text-8xl font-bold tabular-nums">
+		<div class="absolute bottom-28 right-10 text-8xl font-bold tabular-nums sm:bottom-1">
 			{Math.ceil($percentageLoaded * 100)}%
 		</div>
 	</div>

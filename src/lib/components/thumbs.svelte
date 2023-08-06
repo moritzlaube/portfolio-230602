@@ -53,7 +53,7 @@
 				/>
 			</picture>
 
-			<div class="absolute inset-0 hidden md:block">
+			<div class=" hidden md:block">
 				<video
 					data-video-thumb
 					class="h-full w-full object-cover opacity-0 transition-opacity duration-500 ease-in-out hover:opacity-100"
@@ -65,6 +65,11 @@
 					<source data-src={`/videos/thumbs/${entry.thumbPreviewMp4}`} type="video/mp4" />
 					<source data-src={`/videos/thumbs/${entry.thumbPreviewOgg}`} type="video/ogg" />
 				</video>
+			</div>
+			<div
+				class="thumb__client pointer-events-none !bottom-0 !left-1/2 !right-auto !top-auto flex !h-1/3 !w-full -translate-x-1/2 items-center justify-center bg-gradient-to-t from-primary text-center text-2xl text-white opacity-100 transition-all duration-300 ease-in-out md:translate-y-6 md:opacity-0"
+			>
+				{entry.client.toUpperCase()}
 			</div>
 		</a>
 	{/each}
@@ -82,5 +87,9 @@
 	}
 	.thumb:nth-child(6n + 1) {
 		@apply md:aspect-h-3 md:aspect-w-4 md:col-span-5 md:col-start-6;
+	}
+
+	.thumb:hover .thumb__client {
+		@apply translate-y-0 opacity-100;
 	}
 </style>
