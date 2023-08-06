@@ -8,11 +8,12 @@
 	import Footer from '$lib/components/footer.svelte'
 	import { gsap } from 'gsap'
 	import { onMount } from 'svelte'
+	import { initialLoad } from '$lib/stores/preloader.ts'
 
 	export let data: PageData
 
 	onMount(() => {
-		if (document.body.dataset.loaded === 'true') {
+		if ($initialLoad === false) {
 			let mm = gsap.matchMedia()
 			mm.add('(min-width: 768px)', () => {
 				const videos: HTMLVideoElement[] = Array.from(
@@ -29,6 +30,11 @@
 		}
 	})
 </script>
+
+<svelte:head>
+	<title>mo. - Portfolio of Director Moritz Laube</title>
+	<meta name="description" content="" />
+</svelte:head>
 
 <div id="home">
 	<HomeHeader />

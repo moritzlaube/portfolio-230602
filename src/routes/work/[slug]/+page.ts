@@ -1,7 +1,7 @@
+import type { PageLoad } from './$types'
 import db from '../../../data.json'
 
-/** @type {import('./$types').PageLoad} */
-export function load({ params }) {
+export const load: PageLoad = ({ params }) => {
 	return {
 		project: db.find((project) => project.slug === params.slug)
 	}

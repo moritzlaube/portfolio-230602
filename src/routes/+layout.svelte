@@ -6,8 +6,8 @@
 	import { ScrollTrigger } from 'gsap/dist/ScrollTrigger'
 	import { goto } from '$app/navigation'
 	import BaseNav from '$lib/components/base-nav.svelte'
-	import { onMount, tick } from 'svelte'
-	import { browser } from '$app/environment'
+	import { onMount } from 'svelte'
+	import { page } from '$app/stores'
 	import type { FadeParams, TransitionConfig } from 'svelte/types/runtime/transition'
 
 	export let data
@@ -19,7 +19,7 @@
 	 */
 	let scrollToElem: string | null = null
 
-	let pageHasLoaded = false
+	let preloaderAnimationCompleted = false
 
 	gsap.registerPlugin(ScrollTrigger, ScrollSmoother)
 
@@ -75,7 +75,8 @@
 			visibility: 'visible',
 			// fix for Safari bug where the video is still visible on transition
 			backfaceVisibility: 'hidden',
-			transform: 'translate3d(0,0,0)'
+			transform: 'translate3d(0,0,0)',
+			zIndex: 9999
 		})
 
 		// When scrolling away from 'home' keep scroll position and store scrollPosition in variable
@@ -121,11 +122,12 @@
 			}
 		}
 	}
-
-	$: {
-		if (browser) document.body.setAttribute('data-loaded', pageHasLoaded.toString() || 'false')
-	}
 </script>
+
+<svelte:head>
+	<title>{$page.data.project?.client} - {$page.data.project?.title}</title>
+	<meta name="description" content={$page.data.project?.description} />
+</svelte:head>
 
 <BaseNav />
 <div id="smooth-wrapper">
@@ -137,6 +139,6 @@
 		{/key}
 	</div>
 </div>
-{#if !pageHasLoaded}
-	<Preloader on:loaded={() => (pageHasLoaded = true)} />
+{#if !preloaderAnimationCompleted}
+	<Preloader on:animationComplete={() => (preloaderAnimationCompleted = true)} />
 {/if}

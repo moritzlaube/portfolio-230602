@@ -158,10 +158,12 @@
 				<dt class="font-bold">Production House</dt>
 				<dd>{data.project?.productionCompany}</dd>
 			</div>
-			<div class="info">
-				<dt class="font-bold">Director of Photography</dt>
-				<dd>{data.project?.dop}</dd>
-			</div>
+			{#if data.project?.dop}
+				<div class="info">
+					<dt class="font-bold">Director of Photography</dt>
+					<dd>{data.project?.dop}</dd>
+				</div>
+			{/if}
 		</dl>
 		<div class="js-title space-y-4 pb-8 pt-8 md:pb-36 md:pt-16">
 			<div class="overflow-hidden">
