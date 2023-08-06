@@ -1,19 +1,14 @@
-<script>
+<script lang="ts">
 	import { gsap } from 'gsap'
 	import { page } from '$app/stores'
 
 	let hovered = false
 
-	let /** @type {typeof gsap.quickTo} */ xTo, /** @type {typeof gsap.quickTo} */ yTo
+	let xTo: (x: number) => void, yTo: (y: number) => void
 
-	let onMouseMove, onMouseOver
+	let onMouseMove: (e: MouseEvent) => void, onMouseOver: (e: MouseEvent) => void
 
-	/**
-	 * Follows the mouse movement.
-	 * @param {HTMLElement} node - The HTML element to follow the mouse.
-	 * @returns {Object|undefined}  An object with a `destroy` method to remove the event listeners.
-	 */
-	function followMouse(node) {
+	function followMouse(node: HTMLElement) {
 		if (!node) return
 
 		xTo = gsap.quickTo(node, 'x', { duration: 0.5, ease: 'power3' })
@@ -27,32 +22,30 @@
 			y: window.innerHeight / 2
 		})
 
-		onMouseMove = /** @param {MouseEvent} event */ (event) => {
+		onMouseMove = (event: MouseEvent) => {
 			xTo(event.clientX)
 			yTo(event.clientY)
 		}
 
-		/**
-		 * Handles the on click event.
-		 * @param {MouseEvent & { target?: { nodeName?: string } }} event - The mouse over event.
-		 */
-		const onClick = (event) => {
-			if (event?.target?.nodeName === 'VIDEO' || event.target?.nodeName === 'A') {
+		const onClick = (event: MouseEvent) => {
+			if (
+				(event?.target as HTMLElement)?.nodeName === 'VIDEO' ||
+				(event?.target as HTMLElement)?.nodeName === 'A'
+			) {
 				gsap.to(node, { scale: 0, duration: 0.5, ease: 'power4.out' })
 			}
 		}
 
-		/**
-		 * Handles the mouse over event.
-		 * @param {MouseEvent & { target?: { nodeName?: string } }} event - The mouse over event.
-		 */
-		onMouseOver = (event) => {
+		onMouseOver = (event: MouseEvent) => {
 			hovered = false
 
-			if (event.target?.nodeName === 'A' || event.target?.nodeName === 'VIDEO') {
+			if (
+				(event?.target as HTMLElement)?.nodeName === 'A' ||
+				(event?.target as HTMLElement)?.nodeName === 'VIDEO'
+			) {
 				gsap.to(node, { scale: 2, duration: 0.5, ease: 'back.out(1.4)' })
 
-				if (event.target?.nodeName === 'VIDEO') {
+				if ((event?.target as HTMLElement)?.nodeName === 'VIDEO') {
 					hovered = true
 				}
 			} else {
@@ -84,7 +77,7 @@
 <div
 	use:followMouse
 	data-cursor
-	class="pointer-events-none fixed z-50 hidden h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-white text-[8px] uppercase text-primary mix-blend-difference sm:flex md:cursor-none"
+	class="pointer-events-none fixed z-50 hidden h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-white text-[8px] uppercase text-primary mix-blend-difference md:flex md:cursor-none"
 	class:hovered
 >
 	<span class="transition-opacity duration-100 ease-out">play</span>
