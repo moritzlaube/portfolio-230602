@@ -69,7 +69,10 @@
 
 		gsap.set('.logo', { display: 'block' })
 
-		tl = gsap.timeline({ paused: true, onComplete: onAnimationComplete })
+		tl = gsap.timeline({
+			paused: true,
+			onComplete: onAnimationComplete
+		})
 		tl.from('#mo', {
 			duration: 4,
 			drawSVG: '0% 0%'
@@ -95,7 +98,7 @@
 
 	$: {
 		percentageLoaded.set(loaded / totalAssets || 0)
-		if (loaded === totalAssets) {
+		if ($percentageLoaded === 1) {
 			tl?.play()
 			initialLoad.set(false)
 		}

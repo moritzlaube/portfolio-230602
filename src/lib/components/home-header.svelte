@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import me_800_png from '$lib/assets/me-800.png'
 	import me_800_webp from '$lib/assets/me-800.webp'
 	import me_400_png from '$lib/assets/me-800.png'
@@ -8,6 +8,45 @@
 	import me_130_png from '$lib/assets/me-800.png'
 	import me_130_webp from '$lib/assets/me-800.webp'
 	import Share from '$lib/icons/share.svelte'
+
+	import { gsap } from 'gsap'
+	import { SplitText } from 'gsap/dist/SplitText'
+	import { onMount } from 'svelte'
+	import { initialLoad, introAnimationplayed } from '$lib/stores/preloader'
+
+	gsap.registerPlugin(SplitText)
+
+	let tl = gsap.timeline({ delay: 1.5, paused: true })
+
+	onMount(() => {
+		if ($introAnimationplayed) return
+
+		const chars = new SplitText('.split', {
+			type: 'chars'
+		}).chars
+
+		tl.from(chars, {
+			duration: 1,
+			y: 100,
+			opacity: 0,
+			stagger: 0.025,
+			ease: 'power4.out'
+		}).from(
+			'.hero-image',
+			{
+				duration: 1.5,
+				opacity: 0,
+				x: 80,
+				ease: 'power4.out'
+			},
+			'<+.25'
+		)
+	})
+
+	$: {
+		if (!$initialLoad && !$introAnimationplayed)
+			tl.play().eventCallback('onComplete', () => introAnimationplayed.set(true))
+	}
 </script>
 
 <header class="grid grid-cols-2">
@@ -16,13 +55,15 @@
 			id="home-heading"
 			class="relative z-10 text-[158px] font-black uppercase leading-[95%] max-[1275px]:text-[11vw]"
 		>
-			Commercials<br />suck
+			<div class="split">Commercials</div>
+			<div class="split">suck</div>
 		</h1>
-		<p
+		<div
 			class="eyebrow relative z-50 mt-16 text-2xl uppercase text-white mix-blend-difference sm:text-4xl"
 		>
-			Let's create stories<br />that stick
-		</p>
+			<div class="split">Let's create stories</div>
+			<div class="split">that stick</div>
+		</div>
 	</div>
 	<div
 		class="relative col-end-3 row-span-full flex max-h-[90vh] items-end justify-center bg-tertiary"
@@ -37,7 +78,7 @@
 					srcset={`${me_130_png} 130w, ${me_260_png} 260w, ${me_400_png} 400w, ${me_800_png} 800w`}
 					type="image/png"
 				/>
-				<img src={me_400_png} alt="" class="h-full w-full object-contain" />
+				<img src={me_400_png} alt="" class="hero-image h-full w-full object-contain" />
 			</picture>
 		</div>
 		<div class="absolute bottom-10 z-20 hidden text-white sm:block">
@@ -48,3 +89,9 @@
 		</div>
 	</div>
 </header>
+
+<style lang="postcss">
+	.split {
+		@apply overflow-hidden;
+	}
+</style>
