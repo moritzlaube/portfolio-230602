@@ -81,7 +81,7 @@
 
 		// When scrolling away from 'home' keep scroll position and store scrollPosition in variable
 		if (data.url !== '/') {
-			gsap.set(node.firstChild, {
+			gsap.set(node.firstElementChild, {
 				y: window.smoother.scrollTop() * -1
 			})
 			scrollPosition = window.smoother.scrollTop()
@@ -97,7 +97,7 @@
 				} else {
 					window.smoother.scrollTop(scrollPosition ?? 0)
 				}
-			}, 500)
+			}, 400)
 		}
 		// make sure page is scrolled to top before animating. Will be overwritten by scrollTop within setTimeout
 		window.smoother.scrollTop(0)
