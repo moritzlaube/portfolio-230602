@@ -11,7 +11,7 @@
 	// Start logo from 0 before animating
 	//
 	let loaded = 0,
-		totalAssets = 0,
+		totalAssets = 1,
 		percentageLoaded = spring(0, { stiffness: 0.1, damping: 1 }),
 		tl: gsap.core.Timeline | null = null
 
@@ -21,7 +21,7 @@
 		const images = document.querySelectorAll('img')
 		const videos = document.querySelectorAll('video')
 
-		totalAssets += images.length
+		totalAssets = images.length
 
 		let mm = gsap.matchMedia()
 
@@ -106,9 +106,9 @@
 </script>
 
 <div id="preloader-wrapper" class="pointer-events-none fixed inset-0 z-50 overflow-hidden bg-white">
-	<div id="preloader" class="relative flex h-screen w-screen items-center justify-center">
+	<div id="preloader" class="relative flex h-screen w-screen flex-col items-center justify-center">
 		<Logo class="logo hidden scale-150 opacity-50" />
-		<div class="absolute bottom-28 right-10 text-8xl font-bold tabular-nums sm:bottom-1">
+		<div class="absolute bottom-1 right-10 text-6xl font-bold tabular-nums md:text-8xl">
 			{Math.ceil($percentageLoaded * 100)}%
 		</div>
 	</div>

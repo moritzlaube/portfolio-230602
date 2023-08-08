@@ -53,7 +53,7 @@
 	<div class="wrapper col-span-2 col-start-1 row-span-full mt-20 bg-white sm:mt-28">
 		<h1
 			id="home-heading"
-			class="relative z-10 text-[157px] font-black uppercase leading-[95%] max-[1275px]:text-[11vw]"
+			class="relative z-10 text-[156px] font-black uppercase leading-[95%] max-[1275px]:text-[11vw]"
 		>
 			<div class="split">Commercials</div>
 			<div class="split">suck</div>
